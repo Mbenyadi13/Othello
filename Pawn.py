@@ -1,4 +1,4 @@
-from enum import Enumnum
+from enum import Enum
 class color(Enum):
     BLACK= "black"
     WHITE= "white"
