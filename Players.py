@@ -6,5 +6,5 @@ class Player:
 
     
     def placepawn(self):
-
+        
 
