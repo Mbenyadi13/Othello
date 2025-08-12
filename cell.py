@@ -1,3 +1,5 @@
+from Pawn import Pawn
+
 class Cell:
     def __init__(self,i,j,pawn=None):
         self._i = i
@@ -8,27 +10,23 @@ class Cell:
     def i(self):
         return self._i
 
+    @property
     def j(self):
         return self._j
 
+    @property
     def pawn(self):
         return self._pawn
 
-    def isfull(self,pawn):
-        if pawn == None:
-            return False
-        else:
-            return True
+    def isfull(self):
+        return isinstance(self.pawn, Pawn)
         
-    def isempty(self,pawn):
-        if pawn == None:
-            return True
-        else:
-            return False
+    def isempty(self):
+        return not self.isfull()
         
-    def __add__(self, i, j, pawn):
-        if self.isempty(pawn)== True:
-            return self.isempty(pawn) == False
+    def addpawn(self, pawn):
+        if self.isempty():
+             self._pawn = pawn
         else:
             return TypeError (f'Cell not empty! Choose another one')
 
