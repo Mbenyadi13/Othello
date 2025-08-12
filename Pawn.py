@@ -1,15 +1,4 @@
-from enum import Enum
-class color(Enum):
-    BLACK= "black"
-    WHITE= "white"
-
-print(color.BLACK)
-print(color.WHITE)
-print(color.WHITE ==color.BLACK)
-print(color.BLACK == color.WHITE)
-
-
-
+from color import Color
 class Pawn:
     def __init__(self,color):
         self._color = color
@@ -19,8 +8,8 @@ class Pawn:
         return self._color
 
     def flippawn(self):
-        if self._color == color.BLACK:
-            self._color == color.WHITE
+        if self._color == Color.BLACK:
+            self._color == Color.WHITE
         else:
-            self._color == color.BLACK
+            self._color == Color.BLACK
         
