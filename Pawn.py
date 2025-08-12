@@ -7,7 +7,7 @@ class Pawn:
     def color(self):
         return self._color
 
-    def flippawn(self):
+    def flip(self):
         if self._color == Color.BLACK:
             self._color == Color.WHITE
         else:
