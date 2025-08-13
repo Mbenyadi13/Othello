@@ -1,36 +1,57 @@
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
+ 
+from cell import Cell
+from Pawn import Pawn
+from color import Color
+
 
 class Board:
 
-    def __init__(self):             
+    def __init__(self, size=8):             
         
-        self.matrix = np.zeros((8,8), dtype=int)
+        self.size=size ## Taille du plateau Othello
+        self.grid = np.empty((self.size,self.size), dtype=object)
         
-        self.initial_pawns_black= np.array([[3, 4], [4, 4]])
-        self.initial_pawns_white = np.array([[3, 3], [4, 3]])
+        # Création des cellules avec cell 
+        for i in range(self.size):
+            for j in range(self.size):
+                self.grid[i, j] = Cell(i, j)
+        self.initial_pawns()
+        
+    def initial_pawns(self):
+        """Place les pions de départ d'Othello."""
+        m = self.size // 2
+        self.grid[m-1, m-1]._pawn = Pawn(Color.WHITE)
+        self.grid[m-1, m  ]._pawn = Pawn(Color.BLACK)
+        self.grid[m  , m-1]._pawn = Pawn(Color.BLACK)
+        self.grid[m  , m  ]._pawn = Pawn(Color.WHITE)
+
 
     def drawGrid(self):
-        
-        n = self.matrix.shape[0]
-        haut  = "   ┌" + "───┬"*(n-1) + "───┐"
-        mid   = "   ├" + "───┼"*(n-1) + "───┤"
-        bas   = "   └" + "───┴"*(n-1) + "───┘"
-        print("     " + "  ".join(str(i) for i in range(n)))
+        """Affiche le plateau de jeu."""
+        SYMBOLES = {None: " ", Color.BLACK: "●", Color.WHITE: "○"}
+        colonnes = " a  " .join(chr(ord('A') + k) for k in range(self.size))
+        haut  = "   ┌" + "───┬"*(self.size-1) + "───┐"
+        mid   = "   ├" + "───┼"*(self.size-1) + "───┤"
+        bas   = "   └" + "───┴"*(self.size-1) + "───┘"
+        print("     " + colonnes)
         print(haut)
-        for i in range(n):
-            ligne = " | ".join(" " if v==0 else ("1" if v==1 else "2") for v in self.matrix[i])
-            print(f" {i} │ {ligne} │")
-            if i != n-1:
+        for i in range(self.size):
+            ligne = []
+            for j in range(self.size):
+                p = self.grid[i, j].pawn
+                ligne.append(SYMBOLES[None if p is None else p.color])
+            print(f"{i+1:2d} │ " + " | ".join(ligne) + " │") ## affichage de 1 à 8 à gauche 
+            if i != self.size-1:
                 print(mid)
         print(bas)
                   
 
-    def makeMove():
+    def makeMove(self):
         pass
 
-    def display () :
+    def display (self) :
         pass
 
 
