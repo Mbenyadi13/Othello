@@ -5,7 +5,12 @@ from Players import Player
 
 
 game= Othello()
+while True:
+    game.player_turns(Color.BLACK)
+    game.playerb.placepawn(game.board)
+    game.player_turns(Color.WHITE)
+    game.playerw.placepawn(game.board)
 
-print(game.player1.name)
+print(game.playerb.name)
 
  
