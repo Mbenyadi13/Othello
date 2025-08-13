@@ -31,6 +31,10 @@ class Cell:
             raise TypeError (f'Cell not empty! Choose another one')
 
 
+if __name__ == "__main__":
+    test=Cell(3,3)
+    test.isfull  
+    
 
 
     
