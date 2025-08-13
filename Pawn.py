@@ -15,10 +15,7 @@ class Pawn:
             self._color = Color.BLACK
             
     def __repr__(self):
-        if self._color == Color.BLACK:
-            return "●"
-        else:
-            return "○"        
+        return self.color.value
         
 
 if __name__ == "__main__":      

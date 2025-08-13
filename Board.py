@@ -30,8 +30,8 @@ class Board:
 
     def drawGrid(self):
         """Affiche le plateau de jeu."""
-        SYMBOLES = {None: " ", Color.BLACK: "●", Color.WHITE: "○"}
-        colonnes = " a  " .join(chr(ord('A') + k) for k in range(self.size))
+        # SYMBOLES = {None: " ", Color.BLACK: "●", Color.WHITE: "○"}
+        colonnes = "   " .join(chr(ord('A') + k) for k in range(self.size))
         haut  = "   ┌" + "───┬"*(self.size-1) + "───┐"
         mid   = "   ├" + "───┼"*(self.size-1) + "───┤"
         bas   = "   └" + "───┴"*(self.size-1) + "───┘"
@@ -41,11 +41,26 @@ class Board:
             ligne = []
             for j in range(self.size):
                 p = self.grid[i, j].pawn
-                ligne.append(SYMBOLES[None if p is None else p.color])
+                # ligne.append(SYMBOLES[None if p is None else p.color])
+                ligne.append(" " if p is None else p.color.value)
             print(f"{i+1:2d} │ " + " | ".join(ligne) + " │") ## affichage de 1 à 8 à gauche 
             if i != self.size-1:
                 print(mid)
         print(bas)
+        
+    def dicPawns (self):
+        """Retourne un dictionnaire des pions présents sur le plateau."""
+        coords = {"black": [], "white": []}
+        for i in range(self.size):
+            for j in range(self.size):
+                p = self.grid[i, j].pawn
+                if p is None:
+                    continue
+                if p.color == Color.BLACK:
+                    coords["black"].append((i, j))
+                else:
+                    coords["white"].append((i, j))
+        return coords    
                   
 
     def makeMove(self):
@@ -56,30 +71,12 @@ class Board:
 
 
 
+if __name__ == "__main__":
+    test=Board()
+    test.drawGrid()
+    dico = test.dicPawns()
+    print("Noirs :", dico["black"])
+    print("Blancs :", dico["white"])
 
 
-test=Board()
-test.drawGrid()
 
-
-
-#Non interactif 
-        #  # Création de la figure
-        # fig, ax = plt.subplots(figsize=(6, 6))
-        # ax.set_axis_off()  # Pas d'axes
-
-        # # Création d'une table matplotlib
-        # tableau = ax.table(cellText=[["" for _ in range(8)] for _ in range(8)],
-        #     cellLoc='center',
-        #     loc='center')
-
-        #     # Ajuster la taille des cellules
-        # for i in range(8):
-        #     for j in range(8):
-        #         tableau[i, j].set_height(1/8)
-        #         tableau[i, j].set_width(1/8)
-        #         tableau[i, j].set_facecolor("#228B22")  # vert plateau Othello
-        #         tableau[i, j].set_edgecolor("black")    # bordure noire
-                
-
-# # plt.show()
