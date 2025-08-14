@@ -4,8 +4,8 @@ from Board import Board
 
 class Othello:
     def __init__(self):
-        name1 = input("Enter the name of Player 1 ")
-        name2 = input("Enter the name of Player 2 ")
+        name1 = input("Enter the name of Black player ")
+        name2 = input("Enter the name of White player")
         self.playerb=Player(Color.BLACK,name1)
         self.playerw=Player(Color.WHITE,name2)
         self.board=Board()
