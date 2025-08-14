@@ -31,7 +31,7 @@ class Player:
                 i=rownames.index(move[1])        
                 if board.makeMove(i,j,self._color) == True:
                     Cell.addpawn(Pawn(self._color))
-                if board.makeMove((i,j)) == True:
+                if board.makeMove((i,j,self._color)) == True:
                     Cell.addpawn(Pawn(self.color))
                     inloop = False
                 else:
