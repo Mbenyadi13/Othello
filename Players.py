@@ -4,6 +4,8 @@ from cell import Cell
 from Board import Board
 
 
+from Board import makeMove
+
 class Player:
     def __init__(self, color,name):
         self._color = color
@@ -27,6 +29,8 @@ class Player:
             if move[0] in colsnames and move[1] in rownames:
                 j= colsnames.index(move[0])
                 i=rownames.index(move[1])        
+                if board.makeMove(i,j,self._color) == True:
+                    Cell.addpawn(Pawn(self._color))
                 if board.makeMove((i,j)) == True:
                     Cell.addpawn(Pawn(self.color))
                     inloop = False
