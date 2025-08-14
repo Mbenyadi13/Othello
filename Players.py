@@ -27,7 +27,7 @@ class Player:
             if move[0] in colsnames and move[1] in rownames:
                 j= colsnames.index(move[0])
                 i=rownames.index(move[1])        
-                if board.makeMove(i,j,self.color) == True:
+                if board.makeMove((i,j)) == True:
                     Cell.addpawn(Pawn(self.color))
                     inloop = False
                 else:
