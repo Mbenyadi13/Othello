@@ -4,13 +4,18 @@ from Board import Board
 
 class Othello:
     def __init__(self):
+<<<<<<< HEAD
         name1 = input("Enter the name of Black player ")
         name2 = input("Enter the name of White player")
+=======
+        name1 = input("Enter the name of Black 1 ")
+        name2 = input("Enter the name of White 2 ")
+>>>>>>> Mel
         self.playerb=Player(Color.BLACK,name1)
         self.playerw=Player(Color.WHITE,name2)
         self.board=Board()
 
-        
+    
     #Player Alternated moves
    
     def playerTurns(self,color):
@@ -22,7 +27,14 @@ class Othello:
             else:
                  raise ValueError ('Must be a color')
     
-    
+    def alternatePlayer(self):
+        while True: 
+            self.board.drawGrid()
+            self.playerTurns(Color.BLACK)
+            self.playerb.placePawn(self.board)
+            self.playerTurns(Color.WHITE)
+            self.playerw.placePawn(self.board)
+
             
             
             
