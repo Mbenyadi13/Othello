@@ -1,6 +1,6 @@
 from Players import Player
 from color import Color
-from Board import Board
+import Board
 
 class Othello:
     def __init__(self):
