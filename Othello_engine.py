@@ -1,6 +1,6 @@
 from Players import Player
 from color import Color
-import Board
+from Board import Board
 
 class Othello:
     def __init__(self):
@@ -29,6 +29,14 @@ class Othello:
             self.playerb.placePawn(self.board)
             self.playerTurns(Color.WHITE)
             self.playerw.placePawn(self.board)
+            
+    def alternatePlayer(self):
+        while True: 
+            self.board.drawGrid()
+            self.playerTurns(Color.BLACK)
+            self.playerb.placePawn(self.board)
+            self.playerTurns(Color.WHITE)
+            self.playerw.placePawn(self.board)        
 
             
             

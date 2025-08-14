@@ -11,7 +11,7 @@ class Board:
     def __init__(self, size=8):             
         """Initialise le plateau de jeu Othello."""   
         self.size=size ## Taille du plateau Othello
-        self.grid = np.empty((self.size,self.size), dtype=object)
+        self.grid = np.empty((self.size,self.size), dtype=Cell)
         
         # Création des cellules avec cell 
         for i in range(self.size):
@@ -29,7 +29,7 @@ class Board:
         self.grid[m  , m  ]._pawn = Pawn(Color.WHITE)
 
 
-    def drawGrid(self):
+    def drawGrid(self, possibleMove=None):
         """Affiche le plateau de jeu."""
         colonnes = "   " .join(chr(ord('A') + k) for k in range(self.size))
         haut  = "   ┌" + "───┬"*(self.size-1) + "───┐"
@@ -41,7 +41,13 @@ class Board:
             ligne = []
             for j in range(self.size):
                 p = self.grid[i, j].pawn
-                ligne.append(" " if p is None else p.color.value)
+                if p is None:
+                    if possibleMove and (i,j) in possibleMove: 
+                        ligne.append("X") ## marqueur du coup possible
+                    else:
+                        ligne.append(" ")
+                else :
+                    ligne.append(p.color.value)
             print(f"{i+1:2d} │ " + " | ".join(ligne) + " │") ## affichage de 1 à 8 à gauche 
             if i != self.size-1:
                 print(mid)
@@ -129,8 +135,16 @@ class Board:
                 dirs.append(d)
         return dirs
     
+    def validMoveColor(self, color):
+        """Liste [(i,j), ...] des coups jouables pour 'color'."""
+        moves = []
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.grid[i, j].pawn is None and len(self.dirCapturing(i, j, color)) > 0:
+                    moves.append((i, j))
+        return moves
 
-    def makeMove(self, i, j, color):
+    def checkValidMove(self, i, j, color):
         """vérifie si le coup est valide (au moins une direction capturante)
     et si la case est vide & dans le plateau. Ne retourne pas encore les pions.
     """
@@ -144,9 +158,25 @@ class Board:
         ### est-ce qu'il y a au moins une direction capturante ?
         dirs = self.dirCapturing(i, j, color)
         return len(dirs) > 0
+    
+    def playMove(self, i, j, color):
+        """Pose un pion de la couleur donnée et retourne les pions capturés."""
+        # Vérifie validité du coup
+        if not self.checkValidMove(i, j, color):
+            raise ValueError("Coup invalide")
 
-        
-        
+        # Pose le pion
+        self.grid[i, j].addpawn(Pawn(color))
+
+        # Pour chaque direction capturante, retourner les pions adverses
+        for d in self.dirCapturing(i, j, color):
+            di, dj = d.value
+            ci, cj = i + di, j + dj
+            while self.inBoard(ci, cj) and self.grid[ci, cj].pawn.color != color:
+                self.grid[ci, cj].pawn.flip()
+                ci += di
+                cj += dj
+
         
         
 if __name__ == "__main__":
@@ -155,14 +185,16 @@ if __name__ == "__main__":
     dico = test.dicPawns()
     print("Noirs :", dico["black"])
     print("Blancs :", dico["white"])
-    # test.grid[5, 3].addpawn(Pawn(Color.BLACK))
-    # test.drawGrid()
-    # test.grid[1, 6].addpawn(Pawn(Color.WHITE))
-    # test.drawGrid()
-    # print(test.makeMove(4, 5, Color.BLACK))
-    # test.grid[0, 1].addpawn(Pawn(Color.WHITE))
     test.drawGrid()
-    print(test.makeMove(3, 5, Color.WHITE))
+    print(test.checkValidMove(4, 5, Color.WHITE))
     print(test.countersCells())
     print(test.Score())
+    
+    moves_black = test.validMoveColor(Color.BLACK)
+    moves_white = test.validMoveColor(Color.WHITE)
+    test.drawGrid(possibleMove=set(moves_black))
+    test.drawGrid(possibleMove=set(moves_white))
+    
+    test.playMove(4, 5, Color.BLACK)
+    print(test.drawGrid())
 

@@ -1,7 +1,7 @@
 from enum import Enum
 class Color(Enum):
-    BLACK= "●"
-    WHITE= "○"
+    BLACK= "○"
+    WHITE= "●"
     
 def flipColor(color):
     if not isinstance(color, Color):
